@@ -22,21 +22,14 @@ public class TempCountryController {
 
             final TemperatureService temperatureService = new TemperatureService();
             Calendar cal = Calendar.getInstance();
-            ArrayList<TempCountryDay> listTempCountry = new ArrayList<>();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            //System.out.println("Aujourd'hui, nous sommes le: "+sdf.format(cal.getTime()));
-            //ArrayList<TempCountryDay> listTempCountry = new ArrayList<>();
+            ArrayList<TempCountryDay> listTempCountry = new ArrayList<>();
             try {
                 cal.add(Calendar.DATE, -1);
-           // listTempCountry.add(new TempCountryDay(sdf.format(cal.getTime()), temperatureService.getTemperature(country)));
-            listTempCountry.add(new TempCountryDay(sdf.format(cal.getTime()),temperatureService.getTemperature(country)));
-                cal.add(Calendar.DATE, -1);
             listTempCountry.add(new TempCountryDay(sdf.format(cal.getTime()), temperatureService.getTemperature(country)));
-            return new PatternTempResult(country,listTempCountry);
-
+            cal.add(Calendar.DATE, -1);
+            listTempCountry.add(new TempCountryDay(sdf.format(cal.getTime()), temperatureService.getTemperature(country)));
+            return listTempCountry;
         }catch (UnknownCountryException error){
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Country : " + country +  " doesn't exist... ERROR HTTP 417");
-        }
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Country doesn't exist... ERROR HTTP 417");}}}
 
-        }
-    }
